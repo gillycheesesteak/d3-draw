@@ -8,18 +8,18 @@ import DrawEvent from "./event.js";
 
 // Ignore right-click, since that should open the context menu.
 function defaultFilter(event) {
-  return event.pointerType === "pen" && !event.ctrlKey && !event.button;
+  return event.pointerType === "pen";
 }
 
 function defaultContainer() {
-  return this.parentNode;
+  return this;
 }
 
 function defaultTouchable() {
   return navigator.maxTouchPoints > 0 || "ontouchstart" in this;
 }
 
-export default function strokeBehavior() {
+export default function drawBehavior() {
   let filter = defaultFilter;
   let container = defaultContainer;
   let touchable = defaultTouchable;
@@ -30,10 +30,10 @@ export default function strokeBehavior() {
   let timestamp = Date.now();
   let nextPointerDown;
 
-  function stroke(selection) {
+  function draw(selection) {
     selection
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      .on("pointerdown.stroke", pointerDown, nonpassivecapture)
+      .on("pointerdown.draw", pointerDown, nonpassivecapture)
       .filter(touchable)
       .style("touch-action", "none")
       .style("-webkit-tap-highlight-color", "rgba(0,0,0,0)");
@@ -49,7 +49,7 @@ export default function strokeBehavior() {
 
   function pointerUp(event) {
     select(event.view).on(
-      "pointermove.stroke pointerup.stroke touchmove.stroke",
+      "pointermove.draw pointerup.draw touchmove.draw",
       null
     );
     nextPointerDown = event.pointerId;
@@ -90,10 +90,10 @@ export default function strokeBehavior() {
       const p0 = p;
       p = pointer(event, node);
 
-      const strokeEvent = new DrawEvent(type, {
+      const drawEvent = new DrawEvent(type, {
         sourceEvent: event,
         stroke: activeStroke,
-        target: stroke,
+        target: draw,
         identifier,
         pointerType,
         active,
@@ -104,7 +104,7 @@ export default function strokeBehavior() {
         timestamp: event.timeStamp,
       });
 
-      activeStroke.push(strokeEvent);
+      activeStroke.push(drawEvent);
 
       switch (type) {
         case "start":
@@ -115,11 +115,7 @@ export default function strokeBehavior() {
           nextPointerDown = event.pointerId; // falls through
         case "move":
           if (distance({ x: pointerDownX, y: pointerDownY }, event) > 10) {
-            select(event.view).on(
-              "touchmove.stroke",
-              noevent,
-              nonpassivecapture
-            );
+            select(event.view).on("touchmove.draw", noevent, nonpassivecapture);
           } // falls through
         default:
           resetStroke(strokeEvent);
@@ -149,43 +145,43 @@ export default function strokeBehavior() {
     if (!gesture) return;
 
     select(event.view)
-      .on("pointermove.stroke", pointerMove, nonpassivecapture)
-      .on("pointerup.stroke", pointerUp, nonpassivecapture);
+      .on("pointermove.draw", pointerMove, nonpassivecapture)
+      .on("pointerup.draw", pointerUp, nonpassivecapture);
 
     gesture("start", event);
   }
 
-  stroke.filter = (_) => {
+  draw.filter = (_) => {
     if (typeof _ === "undefined") {
       return filter;
     }
 
     filter = typeof _ === "function" ? _ : constant(!!_);
-    return stroke;
+    return draw;
   };
 
-  stroke.container = (_) => {
+  draw.container = (_) => {
     if (typeof _ === "undefined") {
       return container;
     }
 
     container = typeof _ === "function" ? _ : constant(_);
-    return stroke;
+    return draw;
   };
 
-  stroke.touchable = (_) => {
+  draw.touchable = (_) => {
     if (typeof _ === "undefined") {
       return touchable;
     }
 
     touchable = typeof _ === "function" ? _ : constant(!!_);
-    return stroke;
+    return draw;
   };
 
-  stroke.on = (types, handler) => {
+  draw.on = (types, handler) => {
     const value = listeners.on(types, handler);
-    return value === listeners ? stroke : value;
+    return value === listeners ? draw : value;
   };
 
-  return stroke;
+  return draw;
 }

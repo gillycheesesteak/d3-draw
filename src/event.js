@@ -5,12 +5,12 @@ export default function DrawEvent(
     target,
     stroke,
     identifier,
-    pointerType,
     active,
     x,
     y,
     dx,
     dy,
+    pointerType,
     timestamp,
   }
 ) {
