@@ -1,9 +1,5 @@
 # d3-draw
 
-## Installing
-
-If you use npm, `npm install d3-draw`.
-
 ## API Reference
 
 This table describes how the draw behavior interprets native events:
