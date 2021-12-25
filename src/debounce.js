@@ -93,5 +93,3 @@ export default function debounce(func, wait) {
   }
   return debounced;
 }
-
-export default debounce;
