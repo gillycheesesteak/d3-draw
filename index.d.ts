@@ -10,6 +10,8 @@ export interface Point {
   y: number;
 }
 
+export type Stroke = Point[];
+
 /**
  * A Draw Behavior
  */
@@ -204,7 +206,7 @@ export interface DrawEvent<GElement extends Element, Datum> {
    *
    * (see: {@link https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm})
    */
-  simplifiedStroke?: Point[][];
+  simplifiedStroke?: Stroke[];
   /**
    * The pointerType of the pointer event
    *

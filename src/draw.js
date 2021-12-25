@@ -118,11 +118,11 @@ export default function drawBehavior() {
             select(event.view).on("touchmove.draw", noevent, nonpassivecapture);
           } // falls through
         default:
-          resetStroke(strokeEvent);
+          resetStroke(drawEvent);
           break;
       }
 
-      gestureDispatch.call(type, that, strokeEvent, d);
+      gestureDispatch.call(type, that, drawEvent, d);
     };
   }
 
