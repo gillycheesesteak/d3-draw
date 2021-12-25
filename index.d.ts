@@ -145,7 +145,7 @@ export interface DrawBehavior<GElement extends Element, Datum>
  * Creates a new draw behavior. The returned behavior, draw, is both an object and a function, and is
  * typically applied to selected elements via selection.call.
  */
-export function draw<GElement extends Element, Datum>(): DrawBehavior<
+export default function draw<GElement extends Element, Datum>(): DrawBehavior<
   GElement,
   Datum
 >;
