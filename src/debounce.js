@@ -24,7 +24,7 @@ export default function debounce(func, wait) {
     // Start the timer for the trailing edge.
     timerId = startTimer(timerExpired, wait);
     // Invoke the leading edge.
-    return leading ? invokeFunc(time) : result;
+    return result;
   }
 
   function remainingWait(time) {
@@ -47,8 +47,7 @@ export default function debounce(func, wait) {
     return (
       lastCallTime === undefined ||
       timeSinceLastCall >= wait ||
-      timeSinceLastCall < 0 ||
-      (maxing && timeSinceLastInvoke >= maxWait)
+      timeSinceLastCall < 0
     );
   }
 
