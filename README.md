@@ -8,20 +8,14 @@ If you use npm, `npm install d3-draw`.
 
 This table describes how the draw behavior interprets native events:
 
-| Event        | Listening Element | Drag Event | Default Prevented? |
-| ------------ | ----------------- | ---------- | ------------------ |
-| mousedown⁵   | selection         | start      | no¹                |
-| mousemove²   | window¹           | drag       | yes                |
-| mouseup²     | window¹           | end        | yes                |
-| dragstart²   | window            | -          | yes                |
-| selectstart² | window            | -          | yes                |
-| click³       | window            | -          | yes                |
-| touchstart   | selection         | start      | no⁴                |
-| touchmove    | selection         | drag       | yes                |
-| touchend     | selection         | end        | no⁴                |
-| touchcancel  | selection         | end        | no⁴                |
+| Event         | Listening Element | Draw Event | Default Prevented? |
+| ------------- | ----------------- | ---------- | ------------------ |
+| pointerdown   | selection         | start      | no                 |
+| pointermove   | window            | move       | yes                |
+| pointerup     | window            | up         | yes                |
+| pointercancel | window            | up         | yes                |
 
-The propagation of all consumed events is [immediately stopped](https://dom.spec.whatwg.org/#dom-event-stopimmediatepropagation). If you want to prevent some events from initiating a drag gesture, use [_draw_.filter](#draw_filter).
+The propagation of all consumed events is [immediately stopped](https://dom.spec.whatwg.org/#dom-event-stopimmediatepropagation). If you want to prevent some events from initiating a draw gesture, use [_draw_.filter](#draw_filter).
 
 <a href="#draw" name="draw">#</a> d3.<b>draw</b>() · [Source](https://github.com/gillycheesesteak/d3-dra2/blob/master/src/draw.js)
 
