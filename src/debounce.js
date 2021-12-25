@@ -1,5 +1,5 @@
 export default function debounce(func, wait) {
-  let lastArgs, lastThis, maxWait, result, timerId, lastCallTime;
+  let lastArgs, lastThis, result, timerId, lastCallTime;
 
   let lastInvokeTime = 0;
   let trailing = true;
@@ -14,15 +14,11 @@ export default function debounce(func, wait) {
     return result;
   }
 
-  function startTimer(pendingFunc, wait) {
-    return setTimeout(pendingFunc, wait);
-  }
-
   function leadingEdge(time) {
     // Reset any `maxWait` timer.
     lastInvokeTime = time;
     // Start the timer for the trailing edge.
-    timerId = startTimer(timerExpired, wait);
+    timerId = setTimeout(timerExpired, wait);
     // Invoke the leading edge.
     return result;
   }
@@ -32,9 +28,7 @@ export default function debounce(func, wait) {
     const timeSinceLastInvoke = time - lastInvokeTime;
     const timeWaiting = wait - timeSinceLastCall;
 
-    return maxing
-      ? Math.min(timeWaiting, maxWait - timeSinceLastInvoke)
-      : timeWaiting;
+    return timeWaiting;
   }
 
   function shouldInvoke(time) {
@@ -57,7 +51,7 @@ export default function debounce(func, wait) {
       return trailingEdge(time);
     }
     // Restart the timer.
-    timerId = startTimer(timerExpired, remainingWait(time));
+    timerId = setTimeout(timerExpired, remainingWait(time));
   }
 
   function trailingEdge(time) {
@@ -86,7 +80,7 @@ export default function debounce(func, wait) {
       }
     }
     if (timerId === undefined) {
-      timerId = startTimer(timerExpired, wait);
+      timerId = setTimeout(timerExpired, wait);
     }
     return result;
   }
