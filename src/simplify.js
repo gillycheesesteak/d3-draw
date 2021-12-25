@@ -63,5 +63,7 @@ export default function simplifyStroke(stroke) {
     return accumulator;
   }, []);
 
-  return simplified.map((item) => simplifySegment(item));
+  return simplified
+    .filter((item) => item.length !== 0)
+    .map((item) => simplifySegment(item));
 }
