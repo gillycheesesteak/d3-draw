@@ -1,2 +1,1 @@
-export { default as drag } from "./drag.js";
-export { simplifySegment as simplify } from "./simplify.js";
+export { default as draw } from "./draw.js";
