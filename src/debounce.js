@@ -25,7 +25,6 @@ export default function debounce(func, wait) {
 
   function remainingWait(time) {
     const timeSinceLastCall = time - lastCallTime;
-    const timeSinceLastInvoke = time - lastInvokeTime;
     const timeWaiting = wait - timeSinceLastCall;
 
     return timeWaiting;
@@ -33,7 +32,6 @@ export default function debounce(func, wait) {
 
   function shouldInvoke(time) {
     const timeSinceLastCall = time - lastCallTime;
-    const timeSinceLastInvoke = time - lastInvokeTime;
 
     // Either this is the first call, activity has stopped and we're at the
     // trailing edge, the system time has gone backwards and we're treating

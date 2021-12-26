@@ -49,7 +49,7 @@ export default function drawBehavior() {
 
   function pointerUp(event) {
     select(event.view).on(
-      "pointermove.draw pointerup.draw touchmove.draw",
+      "pointermove.draw pointerup.draw pointercancel.draw touchmove.draw",
       null
     );
     nextPointerDown = event.pointerId;
@@ -146,7 +146,7 @@ export default function drawBehavior() {
 
     select(event.view)
       .on("pointermove.draw", pointerMove, nonpassivecapture)
-      .on("pointerup.draw", pointerUp, nonpassivecapture);
+      .on("pointerup.draw pointercancel.draw", pointerUp, nonpassivecapture);
 
     gesture("start", event);
   }
