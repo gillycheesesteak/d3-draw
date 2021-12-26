@@ -112,7 +112,9 @@ export default function drawBehavior() {
           active += 1;
           break;
         case "up":
-          nextPointerDown = event.pointerId; // falls through
+          nextPointerDown = event.pointerId;
+          resetStroke(drawEvent);
+          break;
         case "move":
           if (distance({ x: pointerDownX, y: pointerDownY }, event) > 10) {
             select(event.view).on("touchmove.draw", noevent, nonpassivecapture);
