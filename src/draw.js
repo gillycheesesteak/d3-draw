@@ -44,7 +44,10 @@ export default function drawBehavior() {
     if (Date.now() - timestamp < 1000 / framerate) return;
     timestamp = Date.now();
 
-    gestures[event.pointerId]("move", event);
+    const gesture = gestures[event.pointerId];
+    if (gesture) {
+      gesture("move", event);
+    }
   }
 
   function pointerUp(event) {
@@ -53,7 +56,10 @@ export default function drawBehavior() {
       null
     );
     nextPointerDown = event.pointerId;
-    gestures[event.pointerId]("up", event);
+    const gesture = gestures[event.pointerId];
+    if (gesture) {
+      gesture("up", event);
+    }
   }
 
   function startGesture(that, node, startEvent, d, identifier) {
